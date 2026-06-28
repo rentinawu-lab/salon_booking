@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Customers{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>Customers</h2>
+    <a href="{% url 'salon_app:customer_add' %}" class="btn">+ Add Customer</a>
+</div>
+<table>
+    <thead>
+    <tr><th>ID</th><th>Name</th><th>Gender</th><th>Phone</th><th>Email</th><th>Created At</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    {% for c in customers %}
+    <tr>
+        <td>{{ c.customer_id }}</td>
+        <td>{{ c.customer_name }}</td>
+        <td>{{ c.gender|default:"-" }}</td>
+        <td>{{ c.phone }}</td>
+        <td>{{ c.email|default:"-" }}</td>
+        <td>{{ c.created_at|date:"M d, Y H:i" }}</td>
+        <td class="actions">
+            <a class="btn secondary small" href="{% url 'salon_app:customer_edit' c.customer_id %}">Edit</a>
+            <a class="btn danger small" href="{% url 'salon_app:customer_delete' c.customer_id %}">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7" class="empty">No customers yet. Add the first one!</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

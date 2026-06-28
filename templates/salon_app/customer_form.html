@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{% if customer %}Edit Customer{% else %}Add Customer{% endif %}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>{% if customer %}Edit Customer{% else %}Add Customer{% endif %}</h2>
+</div>
+<div class="card" style="max-width:520px;">
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+        <div class="actions">
+            <button type="submit" class="btn">{% if customer %}Save Changes{% else %}Create Customer{% endif %}</button>
+            <a href="{% url 'salon_app:customer_list' %}" class="btn secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

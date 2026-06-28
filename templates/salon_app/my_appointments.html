@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}My Appointments{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>My Appointments</h2>
+    <a href="{% url 'salon_app:book_appointment' %}" class="btn">+ Book Appointment</a>
+</div>
+<table>
+    <thead>
+    <tr><th>Staff</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    {% for a in appointments %}
+    <tr>
+        <td>{{ a.staff.staff_name }}</td>
+        <td>{{ a.appointment_date }}</td>
+        <td>{{ a.appointment_time }}</td>
+        <td><span class="badge {{ a.status }}">{{ a.status }}</span></td>
+        <td class="actions">
+            <a class="btn secondary small" href="{% url 'salon_app:my_appointment_detail' a.appointment_id %}">View</a>
+            {% if a.status == 'Pending' %}
+            <a class="btn secondary small" href="{% url 'salon_app:my_appointment_edit' a.appointment_id %}">Edit</a>
+            <a class="btn danger small" href="{% url 'salon_app:my_appointment_cancel' a.appointment_id %}">Cancel</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5" class="empty">You have no appointments yet. Book your first one!</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

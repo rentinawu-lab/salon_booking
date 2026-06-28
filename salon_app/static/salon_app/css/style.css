@@ -1,0 +1,219 @@
+:root {
+  --blue: #3b78d8;
+  --blue-dark: #1f4bb0;
+  --bg: #f4f7ff;
+  --card: #ffffff;
+  --border: #d8e3ff;
+  --text: #24345d;
+  --muted: #687296;
+  --success: #2f9e44;
+  --danger: #e03131;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header.topbar {
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  color: white;
+  padding: 22px 32px;
+}
+
+header.topbar h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+nav.mainnav {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex;
+  gap: 4px;
+}
+
+nav.mainnav a {
+  display: inline-block;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 3px solid transparent;
+}
+
+nav.mainnav a:hover,
+nav.mainnav a.active {
+  color: var(--blue-dark);
+  border-bottom-color: var(--blue);
+}
+
+main.content {
+  max-width: 1100px;
+  margin: 28px auto;
+  padding: 0 24px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-size: 22px;
+  color: var(--blue-dark);
+}
+
+.btn {
+  display: inline-block;
+  padding: 9px 16px;
+  border-radius: 6px;
+  background: var(--blue);
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover { background: var(--blue-dark); }
+
+.btn.secondary {
+  background: white;
+  color: var(--blue-dark);
+  border: 1px solid var(--blue);
+}
+
+.btn.danger {
+  background: var(--danger);
+}
+.btn.danger:hover { background: #c92a2a; }
+
+.btn.small {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(214, 51, 108, 0.06);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(59, 120, 216, 0.08);
+}
+
+thead {
+  background: #e7efff;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+th { color: var(--pink-dark); font-weight: 700; }
+
+tbody tr:hover { background: #fff5f8; }
+
+.actions { display: flex; gap: 8px; }
+
+.empty {
+  text-align: center;
+  padding: 40px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+form.styled-form .field {
+  margin-bottom: 16px;
+}
+
+form.styled-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--pink-dark);
+}
+
+form.styled-form input,
+form.styled-form select,
+form.styled-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fffafb;
+}
+
+form.styled-form input:focus,
+form.styled-form select:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+.errorlist {
+  color: var(--danger);
+  font-size: 13px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge.Pending { background: #fff3bf; color: #846a00; }
+.badge.Confirmed { background: #d0ebff; color: #1864ab; }
+.badge.Completed { background: #d3f9d8; color: #2b8a3e; }
+.badge.Cancelled { background: #ffe3e3; color: #c92a2a; }
+
+.messages { list-style: none; padding: 0; margin: 0 0 16px; }
+.messages li {
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: #d3f9d8;
+  color: #2b8a3e;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.detail-card p { margin: 6px 0; }
+.detail-card .label { color: var(--muted); font-weight: 600; display: inline-block; min-width: 110px; }
+
+.formset-row {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 10px;
+}
+.formset-row .field { flex: 1; margin-bottom: 0; }

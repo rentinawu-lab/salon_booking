@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{% if appointment %}Edit Appointment{% else %}Book Appointment{% endif %}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h2>{% if appointment %}Edit Appointment{% else %}Book Appointment{% endif %}</h2>
+</div>
+<div class="card" style="max-width:640px;">
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="field">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+
+        <h3 style="color:#a61e4d; margin-top:24px;">Services</h3>
+        {{ formset.management_form }}
+        {% for f in formset %}
+        <div class="formset-row">
+            {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+            <div class="field">
+                {{ f.service }}
+                {{ f.service.errors }}
+            </div>
+            {% if f.instance.pk %}
+            <div class="field" style="flex:0;">
+                <label>{{ f.DELETE }} Remove</label>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="actions" style="margin-top:20px;">
+            <button type="submit" class="btn">{% if appointment %}Save Changes{% else %}Book Appointment{% endif %}</button>
+            <a href="{% url 'salon_app:my_appointments' %}" class="btn secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
