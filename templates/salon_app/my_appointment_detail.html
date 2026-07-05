@@ -1,48 +1,93 @@
 {% extends "base.html" %}
 {% block title %}Appointment Detail{% endblock %}
 {% block content %}
-<div class="page-header">
-    <h2>Appointment #{{ appointment.appointment_id }}</h2>
+<div class="d-flex justify-content-between align-items-center page-header mb-4">
+    <h2 class="mb-0">Appointment #{{ appointment.appointment_id }}</h2>
     <div class="actions">
         {% if appointment.status == 'Pending' %}
-        <a href="{% url 'salon_app:my_appointment_edit' appointment.appointment_id %}" class="btn secondary small">Edit</a>
-        <a href="{% url 'salon_app:my_appointment_cancel' appointment.appointment_id %}" class="btn danger small">Cancel</a>
+        <a href="{% url 'salon_app:my_appointment_edit' appointment.appointment_id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+        <a href="{% url 'salon_app:my_appointment_cancel' appointment.appointment_id %}" class="btn btn-sm btn-outline-danger">Cancel</a>
         {% endif %}
-        <a href="{% url 'salon_app:my_appointments' %}" class="btn secondary small">Back to list</a>
+        <a href="{% url 'salon_app:my_appointments' %}" class="btn btn-sm btn-outline-secondary">Back to list</a>
     </div>
 </div>
 
-<div class="card detail-card" style="max-width:600px; margin-bottom:20px;">
-    <p><span class="label">Staff:</span> {{ appointment.staff.staff_name }}</p>
-    <p><span class="label">Date:</span> {{ appointment.appointment_date }}</p>
-    <p><span class="label">Time:</span> {{ appointment.appointment_time }}</p>
-    <p><span class="label">Status:</span> <span class="badge {{ appointment.status }}">{{ appointment.status }}</span></p>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Appointment Details</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>Staff:</strong> {{ appointment.staff.staff_name }}</p>
+                        <p class="mb-2"><strong>Date:</strong> {{ appointment.appointment_date }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-2"><strong>Time:</strong> {{ appointment.appointment_time }}</p>
+                        <p class="mb-0"><strong>Status:</strong>
+                            <span class="badge 
+                                {% if appointment.status == 'Pending' %}bg-warning text-dark
+                                {% elif appointment.status == 'Confirmed' %}bg-info
+                                {% elif appointment.status == 'Completed' %}bg-success
+                                {% else %}bg-danger{% endif %}">
+                                {{ appointment.status }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<h3 style="color:#a61e4d;">Services</h3>
-<table style="margin-bottom:20px;">
-    <thead><tr><th>Service</th><th>Price</th><th>Duration</th></tr></thead>
-    <tbody>
-    {% for d in appointment.details.all %}
-    <tr>
-        <td>{{ d.service.service_name }}</td>
-        <td>${{ d.service.price }}</td>
-        <td>{{ d.service.duration }} min</td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="3" class="empty">No services attached.</td></tr>
-    {% endfor %}
-    </tbody>
-</table>
+<h5 class="mb-3">Services</h5>
+<div class="card mb-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 appointments-table">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">Service</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for d in appointment.details.all %}
+                    <tr>
+                        <td>{{ d.service.service_name }}</td>
+                        <td>${{ d.service.price }}</td>
+                        <td>{{ d.service.duration }} min</td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="3" class="text-center py-4">No services attached.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-<h3 style="color:#a61e4d;">Payment</h3>
+<h5 class="mb-3">Payment</h5>
 {% if appointment.payment %}
-<div class="card detail-card" style="max-width:400px;">
-    <p><span class="label">Amount:</span> ${{ appointment.payment.amount }}</p>
-    <p><span class="label">Method:</span> {{ appointment.payment.payment_method }}</p>
-    <p><span class="label">Date:</span> {{ appointment.payment.payment_date }}</p>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <p class="mb-0"><strong>Amount:</strong> ${{ appointment.payment.amount }}</p>
+            </div>
+            <div class="col-md-4">
+                <p class="mb-0"><strong>Method:</strong> {{ appointment.payment.payment_method }}</p>
+            </div>
+            <div class="col-md-4">
+                <p class="mb-0"><strong>Date:</strong> {{ appointment.payment.payment_date }}</p>
+            </div>
+        </div>
+    </div>
 </div>
 {% else %}
-<p class="empty">No payment recorded yet.</p>
+<div class="alert alert-info" role="alert">
+    No payment recorded yet.
+</div>
 {% endif %}
 {% endblock %}

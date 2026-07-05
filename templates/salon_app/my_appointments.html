@@ -1,32 +1,72 @@
 {% extends "base.html" %}
 {% block title %}My Appointments{% endblock %}
 {% block content %}
-<div class="page-header">
-    <h2>My Appointments</h2>
-    <a href="{% url 'salon_app:book_appointment' %}" class="btn">+ Book Appointment</a>
+<div class="container-fluid px-0">
+    <div class="page-header d-flex justify-content-between align-items-center flex-wrap mb-4">
+        <h2 class="mb-0">My Appointments</h2>
+        <a href="{% url 'salon_app:book_appointment' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Book New Appointment
+        </a>
+    </div>
+
+    {% if appointments %}
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 appointments-table">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Staff</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for a in appointments %}
+                        <tr>
+                            <td>{{ a.staff.staff_name }}</td>
+                            <td>{{ a.appointment_date }}</td>
+                            <td>{{ a.appointment_time }}</td>
+                            <td>
+                                <span class="badge 
+                                    {% if a.status == 'Pending' %}bg-warning text-dark
+                                    {% elif a.status == 'Confirmed' %}bg-info
+                                    {% elif a.status == 'Completed' %}bg-success
+                                    {% else %}bg-danger{% endif %}">
+                                    {{ a.status }}
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <div class="actions justify-content-end">
+                                    <a href="{% url 'salon_app:my_appointment_detail' a.appointment_id %}" class="btn btn-sm btn-outline-primary">View</a>
+                                    {% if a.status == 'Pending' %}
+                                        <a href="{% url 'salon_app:my_appointment_edit' a.appointment_id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        <a href="{% url 'salon_app:my_appointment_cancel' a.appointment_id %}" class="btn btn-sm btn-outline-danger">Cancel</a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4">No appointments found.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="card">
+        <div class="card-body text-center py-5">
+            <h5>You don't have any appointments yet.</h5>
+            <a href="{% url 'salon_app:book_appointment' %}" class="btn btn-primary mt-3">
+                Book Your First Appointment
+            </a>
+        </div>
+    </div>
+    {% endif %}
 </div>
-<table>
-    <thead>
-    <tr><th>Staff</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr>
-    </thead>
-    <tbody>
-    {% for a in appointments %}
-    <tr>
-        <td>{{ a.staff.staff_name }}</td>
-        <td>{{ a.appointment_date }}</td>
-        <td>{{ a.appointment_time }}</td>
-        <td><span class="badge {{ a.status }}">{{ a.status }}</span></td>
-        <td class="actions">
-            <a class="btn secondary small" href="{% url 'salon_app:my_appointment_detail' a.appointment_id %}">View</a>
-            {% if a.status == 'Pending' %}
-            <a class="btn secondary small" href="{% url 'salon_app:my_appointment_edit' a.appointment_id %}">Edit</a>
-            <a class="btn danger small" href="{% url 'salon_app:my_appointment_cancel' a.appointment_id %}">Cancel</a>
-            {% endif %}
-        </td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="5" class="empty">You have no appointments yet. Book your first one!</td></tr>
-    {% endfor %}
-    </tbody>
-</table>
 {% endblock %}
